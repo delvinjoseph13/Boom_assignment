@@ -75,19 +75,34 @@ Frontend Setup
    npm run dev
 
 
-boom-short-video-app/
-├── backend/
-│ ├── controllers/
-│ ├── model/
-│ ├── routes/
-│ ├── uploads/
-│ ├── middleware/
-│ ├── .env
-│ ├── server.js
-├── frontend/
-│ ├── src/
-│ │ ├── components/
-│ │ ├── App.js
-│ │ ├── index.css
-│ ├── tailwind.config.js
-│ ├── package.json
+backend/
+  controllers/
+  middleware/
+  model/
+  routes/
+  uploads/
+  server.js
+  .env
+
+frontend/vite-project
+  src/
+    components/
+    App.js
+    index.css
+  tailwind.config.js
+  package.json
+
+
+
+API Endpoints Documentation
+Briefly list key backend routes with their methods and purpose, e.g.:
+
+pgsql
+Copy
+Edit
+### API Endpoints
+- POST /api/register — User registration
+- POST /api/login — User login
+- POST /api/upload — Upload video 
+- GET /api/videos — Get all videos
+- PUT /api/like/:videoId — Like a video
