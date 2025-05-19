@@ -8,12 +8,15 @@ dotenv.config()
 export const userRegister=async(req,res)=>{
     const {email,password}=req.body
     try {
+        //checking if user already exists
         const user=await userModel.findOne({email})
 
         if(user){
             return res.status(400).json({message:"User Already Exits"})
         }
+        //hashing password
         const hashPassword=bcrypt.hashSync(password,10)
+        //creating new User
         const newUser=await userModel.create({
             email,
             password:hashPassword
@@ -30,12 +33,16 @@ export const userRegister=async(req,res)=>{
 export const userLogin=async(req,res)=>{
     const {email,password}=req.body
     try {
+
+        //checking if user exists
         const user=await userModel.findOne({email});
         if(!user){
             return res.status(400).json({message:"User Not Found"})
         }
+        //comparing password
         const isMatch=bcrypt.compareSync(password,user.password);
-const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "24h" });
+        //generting jwt joken
+        const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "24h" });
         if(!isMatch){
             return res.status(400).json({message:"Invalid Password"})
         }
