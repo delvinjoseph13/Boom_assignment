@@ -92,14 +92,6 @@ frontend/vite-project
   tailwind.config.js
   package.json
 
-
-
-API Endpoints Documentation
-Briefly list key backend routes with their methods and purpose, e.g.:
-
-pgsql
-Copy
-Edit
 ### API Endpoints
 - POST /api/register — User registration
 - POST /api/login — User login
