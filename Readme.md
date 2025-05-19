@@ -1,10 +1,10 @@
-# 📱 BOOM Short-Video App
+# BOOM Short-Video App
 
 A lightweight short-video viewing and uploading app built for a decentralized entertainment ecosystem. This project includes user authentication, video feed, upload functionality, and basic like system.
 
 ---
 
-## 🚀 Features
+##  Features
 
 - User registration and login (JWT-based)
 - Upload short videos with titles
