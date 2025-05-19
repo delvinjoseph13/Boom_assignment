@@ -6,20 +6,18 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const userRegister=async(req,res)=>{
-    const {name,email,password}=req.body
+    const {email,password}=req.body
     try {
         const user=await userModel.findOne({email})
 
-        if(email){
+        if(user){
             return res.status(400).json({message:"User Already Exits"})
         }
         const hashPassword=bcrypt.hashSync(password,10)
         const newUser=await userModel.create({
-            name,
             email,
             password:hashPassword
         })
-        await newUser.save()
         res.status(201).json({message:"User Created Successfully"})
         
         
@@ -37,11 +35,11 @@ export const userLogin=async(req,res)=>{
             return res.status(400).json({message:"User Not Found"})
         }
         const isMatch=bcrypt.compareSync(password,user.password);
-        const token=jwt.sign(user._id,process.env.SECRET_KEY,{expiresIn:"24h"})
+const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, { expiresIn: "24h" });
         if(!isMatch){
             return res.status(400).json({message:"Invalid Password"})
         }
-        res.status(200).json({
+        res.status(201).json({
             message:"User Login Successfully",
             user:user,
             token:token

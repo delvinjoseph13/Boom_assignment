@@ -7,12 +7,13 @@ export default function Upload() {
   const [video, setVideo] = useState(null);
   const navigate = useNavigate();
 
-  const submit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('video', video);
+const submit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('video', video);
 
+  try {
     await axios.post('http://localhost:8000/api/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -20,8 +21,13 @@ export default function Upload() {
       },
     });
 
-    navigate('/');
-  };
+    navigate('/feed');
+  } catch (error) {
+    console.error("Upload failed:", error.response?.data || error.message);
+    alert("Upload failed");
+  }
+};
+
 
   return (
     <div className="flex justify-center mt-10">

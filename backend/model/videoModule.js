@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const videoSchema=mongoose.Schema({
     title:String,
-    file:String,
+    filename: String,
     likes:{
         type:Number,
         default:0

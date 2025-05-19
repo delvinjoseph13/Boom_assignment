@@ -1,42 +1,96 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Register() {
-  const [form, setForm] = useState({ name:'',email: '', password: '' });
-  const navigate = useNavigate();
+function Register(){
 
-  const submit = async (e) => {
-    e.preventDefault();
-    const res = await axios.post('http://localhost:8000/api/register', form);
-    localStorage.setItem('token', res.data.token);
-    navigate('/');
-  };
+    //formdata for the input values
+    const [formData,setFormData]=useState({
+        email:'',
+        password:''
+    })
 
-  return (
-    <div className="flex justify-center mt-10">
-      <form onSubmit={submit} className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4">
-        <h2 className="text-2xl font-semibold text-center">Register</h2>
+    const [error,setError]=useState({})
+    const navigate=useNavigate();
+
+       //setting the form data 
+    function handleChange(e){
+          setFormData({
+            ...formData,
+            [e.target.name]:e.target.value
+          })
+
+    }
+
+    //function to handle the form submission
+   async function handleSubmit(e){
+        e.preventDefault();
+
+        const newError={};
+        if(!formData.email.trim()){
+            newError.email="Please enter the email"
+        }
+        if(!formData.password.trim()){
+            newError.password="Please enter the password"
+        }
+
+        if(Object.keys(newError).length>0){
+            setError(newError);
+            return;
+        }
+
+        try {
+            const response=await axios.post(`http://localhost:8000/auth/register`,formData)
+            if(response.status==201){
+                alert("User Registered")
+            }
+            navigate('/')
+            
+
+        } catch (error) {
+            alert(error.message|| "Error")
+        }
+
+    }
+     return (
+    <div className="flex h-screen justify-center items-center bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm"
+      >
+        <h2 className="text-xl font-semibold text-center mb-4">Admin Register</h2>
         <input
-          placeholder="name"
-          className="w-full px-3 py-2 border rounded"
-          onChange={e => setForm({ ...form, name: e.target.value })}
+          type="email"
+          name="email"
+          placeholder="Enter Email"
+          value={formData.email}
+          className="w-full p-2 mb-4 border rounded"
+          onChange={handleChange}
         />
-        <input
-          placeholder="Email"
-          className="w-full px-3 py-2 border rounded"
-          onChange={e => setForm({ ...form, email: e.target.value })}
-        />
+         {error.email && <p className="text-red-500 text-sm mb-2">{error.email}</p>}
         <input
           type="password"
-          placeholder="Password"
-          className="w-full px-3 py-2 border rounded"
-          onChange={e => setForm({ ...form, password: e.target.value })}
+          name="password"
+          placeholder="Enter Password"
+          value={formData.password}
+          className="w-full p-2 mb-4 border rounded"
+          onChange={handleChange}
         />
-        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          Login
+        {error.password && (
+          <p className="text-red-500 text-sm mt-2">{error.password}</p>
+        )}
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+        >
+          Register
         </button>
+        <span>If  Registered go to login <Link to='/' className="text-blue-400">Login</Link></span>
+
+        {error.form && <p className="text-red-500 text-sm mt-2">{error.form}</p>}
       </form>
     </div>
   );
 }
+export default Register;
