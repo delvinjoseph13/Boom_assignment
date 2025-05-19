@@ -92,6 +92,10 @@ frontend/vite-project
   tailwind.config.js
   package.json
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 572f8d9793418fe023680d5a0ef2a7b355a261ec
 ### API Endpoints
 - POST /api/register — User registration
 - POST /api/login — User login
